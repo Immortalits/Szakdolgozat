@@ -1,6 +1,6 @@
-from models.model_mixin import MixinModel
-from db import BaseModel, db
-from models.category_link import CategoryLink
+from Webshop_app.models.model_mixin import MixinModel
+from Webshop_app.db import BaseModel, db
+from Webshop_app.models.category_link import CategoryLink
 
 
 class CategoryModel(BaseModel, MixinModel):

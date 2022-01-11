@@ -1,8 +1,8 @@
 # https: // flask-sqlalchemy.palletsprojects.com/en/2.x/models/
 
 
-from models.model_mixin import MixinModel
-from db import BaseModel, db
+from Webshop_app.models.model_mixin import MixinModel
+from Webshop_app.db import BaseModel, db
 
 
 class CategoryLink(BaseModel, MixinModel):

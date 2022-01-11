@@ -1,17 +1,17 @@
 from flask import Flask
 from flask_restful import Api
-from db import db
-from os import environ
+from Webshop_app.db import db
+from os import environ, path, mkdir
 
 from flask_jwt import JWT
 
 # Resources
-from resources.user import UserRegister
-from resources.category import Category, CategoryManagement
-from resources.product import Product, ProductManagement
-from resources.assign import AssignProductToCategory
+from Webshop_app.resources.user import UserRegister
+from Webshop_app.resources.category import Category, CategoryManagement
+from Webshop_app.resources.product import Product, ProductManagement
+from Webshop_app.resources.assign import AssignProductToCategory
 
-from security import authenticate, identity
+from Webshop_app.security import authenticate, identity
 
 # App config
 app = Flask(__name__)

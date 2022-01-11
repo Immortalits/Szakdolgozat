@@ -1,5 +1,5 @@
 from flask_restful import Resource, reqparse
-from models.product import ProductModel
+from Webshop_app.models.product import ProductModel
 
 minLength = 3  # Minimum length of the product names.
 

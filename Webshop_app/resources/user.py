@@ -1,6 +1,6 @@
 from flask_restful import Resource, reqparse
-from models.user import UserModel
-from security import hash_password
+from Webshop_app.models.user import UserModel
+from Webshop_app.security import hash_password
 
 
 class UserRegister(Resource):

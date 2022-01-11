@@ -1,4 +1,4 @@
-from db import db
+from Webshop_app.db import db
 
 
 class MixinModel():

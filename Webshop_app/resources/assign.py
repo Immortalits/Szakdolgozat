@@ -1,8 +1,8 @@
 from flask_restful import Resource, reqparse
-from models.product import ProductModel
-from models.category import CategoryModel
-from models.category_link import CategoryLink
-from db import db
+from Webshop_app.models.product import ProductModel
+from Webshop_app.models.category import CategoryModel
+from Webshop_app.models.category_link import CategoryLink
+from Webshop_app.db import db
 
 
 class AssignProductToCategory(Resource):

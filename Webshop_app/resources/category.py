@@ -1,6 +1,6 @@
 from flask_restful import Resource, reqparse
 from sqlalchemy.orm import query
-from models.category import CategoryModel
+from Webshop_app.models.category import CategoryModel
 
 minLength = 3  # Minimum length of the category names.
 
@@ -65,5 +65,5 @@ class CategoryManagement(Resource):
     def get(self, categoryName):
         return {
             categoryName: list(
-                map(lambda product: product.json(), CategoryModel.query.all()))
+                map(lambda product: product.json(), CategoryModel.query.filter_by(categoryName=categoryName)))
         }
