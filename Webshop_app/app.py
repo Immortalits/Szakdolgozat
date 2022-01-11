@@ -8,7 +8,7 @@ from flask_jwt import JWT
 # Resources
 from resources.user import UserRegister
 from resources.category import Category, CategoryManagement
-from resources.product import Product
+from resources.product import Product, ProductManagement
 
 from security import authenticate, identity
 
@@ -40,7 +40,7 @@ api.add_resource(UserRegister, "/register")
 api.add_resource(Category, "/categories")
 api.add_resource(CategoryManagement, "/categories/<string:categoryName>")
 api.add_resource(Product, "/products")
-
+api.add_resource(ProductManagement, "/products/<string:productName>")
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debuf=True)

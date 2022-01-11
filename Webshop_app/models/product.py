@@ -7,11 +7,13 @@ class ProductModel(BaseModel, MixinModel):
 
     # Setting an ID for each product
     id = db.Column(db.Integer, primary_key=True)
-
     productName = db.Column(db.String(80))
     price = db.Column(db.Integer)
     availability = db.Column(db.Boolean)
     description = db.Column(db.Text)
+
+    # Many to many
+    categories = db.relationship('CategoryLink', back_populates='product')
 
     def json(self):
         data = {
