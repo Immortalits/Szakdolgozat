@@ -1,0 +1,18 @@
+Webshop - Backend
+
+JWT authentication -> done
+
+Modells:
+User -> done
+Product -> done
+Product categories -> done
+Shopping cart
+Purchase
+Credit card data (hash)
+
+Functions:
+no-auth req.: GET, put product in cart
+
+auth req.: put product in cart, GET, start purchase
+product + product categories -> CRUD
+
