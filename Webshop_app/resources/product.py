@@ -1,5 +1,4 @@
 from flask_restful import Resource, reqparse
-from sqlalchemy.orm import query
 from models.product import ProductModel
 
 minLength = 3  # Minimum length of the product names.

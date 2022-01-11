@@ -13,8 +13,16 @@ class CategoryModel(BaseModel, MixinModel):
     # Relationship
     products = db.relationship(CategoryLink, back_populates='category')
 
-    def json(self):
-        return {"categoryName": self.categoryName}
+    def json(self, assigned=True):
+        category = {"categoryName": self.categoryName}
+        if assigned:
+            products = []
+            for link in self.products:
+                if link.product is not None:
+                    products.append(link.product.json(full=False))
+            category = {'products': products}
+
+        return category
 
     def __init__(self, categoryName):
         self.categoryName = categoryName

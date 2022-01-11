@@ -15,14 +15,18 @@ class ProductModel(BaseModel, MixinModel):
     # Many to many
     categories = db.relationship('CategoryLink', back_populates='product')
 
-    def json(self):
-        data = {
-            "productName": self.productName,
-            "price": self.price,
-            "availability": self.availability,
-            "description": self.description
-        }
-
+    def json(self, full=True):
+        if full:
+            data = {
+                "productName": self.productName,
+                "price": self.price,
+                "availability": self.availability,
+                "description": self.description
+            }
+        else:
+            data = {
+                "productName": self.productName
+            }
         return data
 
     def __init__(self, productName, price, availability, description=""):

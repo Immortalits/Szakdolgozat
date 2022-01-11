@@ -27,7 +27,7 @@ class Category(Resource):
 
     def get(self):
         return {
-            "categories": [category.json() for category in CategoryModel.query.all()]
+            "categories": [category.json(assigned=False) for category in CategoryModel.query.all()]
         }
 
 
@@ -61,3 +61,9 @@ class CategoryManagement(Resource):
             return {"message": f"Category with name: {categoryName} does not exists!"}
         else:
             return {"message": f"Please give a valid category name of at least {minLength} characters!"}
+
+    def get(self, categoryName):
+        return {
+            categoryName: list(
+                map(lambda product: product.json(), CategoryModel.query.all()))
+        }
