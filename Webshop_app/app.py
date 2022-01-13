@@ -39,7 +39,7 @@ def index():
 
 api.add_resource(UserRegister, "/register")
 api.add_resource(Category, "/categories")
-api.add_resource(CategoryManagement, "/categories/<string:categoryName>")
+api.add_resource(CategoryManagement, "/categories/<int:category_id>")
 api.add_resource(Product, "/products")
 api.add_resource(ProductManagement, "/products/<string:productName>")
 api.add_resource(AssignProductToCategory, "/assign")

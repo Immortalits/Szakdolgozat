@@ -32,3 +32,24 @@ class AssignProductToCategory(Resource):
         link = CategoryLink(**data)
         link.save_to_db()
         return {"message": f"{product.productName} is assigned to {category.categoryName} successfully!"}, 201
+
+    def delete(self):
+        data = AssignProductToCategory.parser.parse_args()
+
+        product = ProductModel.find_by_attribute(id=data["product_id"])
+        if not product:
+            return {"message": "This product does not exists"}, 404
+
+        category = CategoryModel.find_by_attribute(id=data["category_id"])
+        if not category:
+            return {"message": "This category does not exist"}, 404
+
+        if CategoryLink.find_by_attribute(product_id=data["product_id"], category_id=data["category_id"]):
+
+            link = CategoryLink.find_by_attribute(
+                product_id=data["product_id"], category_id=data["category_id"])
+            link.delete_from_db()
+
+            return {"message": f"{product.productName} was removed from {category.categoryName} category!"}, 200
+
+        return {"message": "This assignment does not exist!"}

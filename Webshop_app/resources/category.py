@@ -39,31 +39,32 @@ class CategoryManagement(Resource):
                         required=True,
                         help="This field cannot be blank.")
 
-    def delete(self, categoryName):
-        category = CategoryModel.find_by_attribute(categoryName=categoryName)
+    def delete(self, category_id):
+        category = CategoryModel.find_by_attribute(id=category_id)
         if category:
             category.delete_from_db()
-            return {"message": f"{categoryName} category has been deleted successfully."}
-        return {"message": f"Category with name: {categoryName} does not exists!"}
+            return {"message": f"{category.categoryName} category has been deleted successfully."}
+        return {"message": f"Category with name: {category.categoryName} does not exists!"}
 
-    def put(self, categoryName):
+    def put(self, category_id):
 
         data = CategoryManagement.parser.parse_args()
 
         if len(data['categoryName'].strip()) > minLength:
 
             category = CategoryModel.find_by_attribute(
-                categoryName=categoryName)
+                id=category_id)
             if category:
                 category.categoryName = data["categoryName"]
                 category.save_to_db()
-                return {"message": f"{categoryName} category has been updated to {data['categoryName']} successfully."}
-            return {"message": f"Category with name: {categoryName} does not exists!"}
+                return {"message": f"{category.categoryName} category has been updated to {data['categoryName']} successfully."}
+            return {"message": f"Category with name: {category.categoryName} does not exists!"}
         else:
             return {"message": f"Please give a valid category name of at least {minLength} characters!"}
 
-    def get(self, categoryName):
+    def get(self, category_id):
+        category = CategoryModel.find_by_attribute(id=category_id)
         return {
-            categoryName: list(
-                map(lambda product: product.json(), CategoryModel.query.filter_by(categoryName=categoryName)))
+            category.categoryName: list(
+                map(lambda product: product.json(), CategoryModel.query.filter_by(id=category_id)))
         }
