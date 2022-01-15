@@ -1,6 +1,7 @@
 from flask_restful import Resource, reqparse
 from Webshop_app.models.user import UserModel
 from Webshop_app.security import hash_password
+from Webshop_app.models.cart import CartModel
 
 
 class UserRegister(Resource):
@@ -22,5 +23,8 @@ class UserRegister(Resource):
 
         user = UserModel(data['username'], hash_password(data['password']))
         user.save_to_db()
+
+        cart = CartModel(user.id)
+        cart.save_to_db()
 
         return {"message": "User created successfully."}, 201

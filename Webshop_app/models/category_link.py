@@ -9,6 +9,8 @@ class CategoryLink(BaseModel, MixinModel):
     __tablename__ = 'product_category'
     product_id = db.Column(db.ForeignKey('products.id'), primary_key=True)
     category_id = db.Column(db.ForeignKey('categories.id'), primary_key=True)
+
+    # Relationships
     product = db.relationship('ProductModel', back_populates='categories')
     category = db.relationship('CategoryModel', back_populates='products')
 

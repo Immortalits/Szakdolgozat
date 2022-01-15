@@ -1,16 +1,17 @@
 from flask import Flask
 from flask_restful import Api
-from Webshop_app.db import db
 from os import environ, path, mkdir
-
 from flask_jwt import JWT
+from Webshop_app.db import db
 
 # Resources
 from Webshop_app.resources.user import UserRegister
 from Webshop_app.resources.category import Category, CategoryManagement
 from Webshop_app.resources.product import Product, ProductManagement
 from Webshop_app.resources.assign import AssignProductToCategory
+from Webshop_app.resources.cart import AssignProductToCart
 
+# Authentication
 from Webshop_app.security import authenticate, identity
 
 # App config
@@ -43,7 +44,7 @@ api.add_resource(CategoryManagement, "/categories/<int:category_id>")
 api.add_resource(Product, "/products")
 api.add_resource(ProductManagement, "/products/<string:productName>")
 api.add_resource(AssignProductToCategory, "/assign")
-
+api.add_resource(AssignProductToCart, "/<int:user_id>/cart")
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debuf=True)

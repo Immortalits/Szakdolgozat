@@ -4,13 +4,13 @@ from Webshop_app.models.category_link import CategoryLink
 
 
 class CategoryModel(BaseModel, MixinModel):
-    __tablename__ = "categories"  # Name of the database table
+    __tablename__ = "categories"
 
     # Setting an ID for each product
     id = db.Column(db.Integer, primary_key=True)
     categoryName = db.Column(db.String(80))
 
-    # Relationship
+    # Relationships
     products = db.relationship(CategoryLink, back_populates='category')
 
     def json(self, assigned=True):

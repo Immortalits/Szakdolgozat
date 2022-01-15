@@ -2,7 +2,9 @@ from flask_restful import Resource, reqparse
 from sqlalchemy.orm import query
 from Webshop_app.models.category import CategoryModel
 
-minLength = 3  # Minimum length of the category names.
+
+# Minimum length of the category names.
+minLength = 3
 
 
 class Category(Resource):

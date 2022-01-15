@@ -1,5 +1,6 @@
 from Webshop_app.models.model_mixin import MixinModel
 from Webshop_app.db import BaseModel, db
+from Webshop_app.models.cart_link import CartLink
 
 
 class ProductModel(BaseModel, MixinModel):
@@ -12,8 +13,9 @@ class ProductModel(BaseModel, MixinModel):
     availability = db.Column(db.Boolean)
     description = db.Column(db.Text)
 
-    # Many to many
+    # Relationships
     categories = db.relationship('CategoryLink', back_populates='product')
+    carts = db.relationship('CartLink', back_populates='product')
 
     def json(self, full=True):
         if full:
@@ -24,9 +26,8 @@ class ProductModel(BaseModel, MixinModel):
                 "description": self.description
             }
         else:
-            data = {
-                "productName": self.productName
-            }
+            data = self.productName
+
         return data
 
     def __init__(self, productName, price, availability, description=""):

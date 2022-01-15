@@ -19,6 +19,5 @@ def authenticate(username, password):
 
 def identity(payload):
     # payload info is extracted from the token...
-    # print(payload)
     user_id = payload['identity']
     return UserModel.find_by_attribute(id=user_id)
