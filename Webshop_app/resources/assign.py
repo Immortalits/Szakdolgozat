@@ -15,6 +15,10 @@ class AssignProductToCategory(Resource):
                         type=str,
                         required=True,
                         help="This field cannot be blank.")
+    parser.add_argument('new_category_id',
+                        type=str,
+                        required=True,
+                        help="This field cannot be blank.")
 
     def post(self):
         data = AssignProductToCategory.parser.parse_args()
@@ -32,6 +36,31 @@ class AssignProductToCategory(Resource):
         link = CategoryLink(**data)
         link.save_to_db()
         return {"message": f"{product.productName} is assigned to {category.categoryName} successfully!"}, 201
+
+    def put(self):
+        data = AssignProductToCategory.parser.parse_args()
+
+        product = ProductModel.find_by_attribute(id=data["product_id"])
+        if not product:
+            return {"message": "This product does not exists"}, 404
+        category = CategoryModel.find_by_attribute(id=data["category_id"])
+        if not category:
+            return {"message": "This category does not exist"}, 404
+
+        if CategoryLink.find_by_attribute(product_id=data["product_id"], category_id=data["new_category_id"]):
+            return {"message": f"{product.productName} is already in this category!"}
+
+        if CategoryLink.find_by_attribute(product_id=data["product_id"], category_id=data["category_id"]):
+            link = CategoryLink.find_by_attribute(
+                product_id=data["product_id"], category_id=data["category_id"])
+
+            link.category_id = data["new_category_id"]
+            link.save_to_db()
+
+            new_category = CategoryModel.find_by_attribute(
+                id=data["new_category_id"])
+
+            return {"message": f"{product.productName} has been assigned to {new_category.categoryName} from {category.categoryName} successfully!"}, 201
 
     def delete(self):
         data = AssignProductToCategory.parser.parse_args()

@@ -70,23 +70,61 @@ class AssignProductToCart(Resource):
             "Cart": list(map(lambda product: product.json(), CartModel.query.filter_by(id=cart.id)))
         }
 
-        # def delete(self):
-        #     data = AssignProductToCategory.parser.parse_args()
+    def put(self, user_id):
+        data = AssignProductToCart.parser.parse_args()
 
-        #     product = ProductModel.find_by_attribute(id=data["product_id"])
-        #     if not product:
-        #         return {"message": "This product does not exists"}, 404
+        product = ProductModel.find_by_attribute(id=data["product_id"])
+        if not product:
+            return {"message": "This product does not exists"}, 404
+        user = UserModel.find_by_attribute(id=data["user_id"])
+        if not user:
+            return {"message": "This user does not exist"}, 404
 
-        #     category = CategoryModel.find_by_attribute(id=data["category_id"])
-        #     if not category:
-        #         return {"message": "This category does not exist"}, 404
+        if data['amount'] and data['amount'] >= 1:
+            amount = data['amount']
+        else:
+            # if no amount is defined
+            amount = 1
 
-        #     if CategoryLink.find_by_attribute(product_id=data["product_id"], category_id=data["category_id"]):
+        if CartModel.find_by_attribute(user_id=data["user_id"]):
+            cart = CartModel.find_by_attribute(user_id=data["user_id"])
 
-        #         link = CategoryLink.find_by_attribute(
-        #             product_id=data["product_id"], category_id=data["category_id"])
-        #         link.delete_from_db()
+            if CartLink.find_by_attribute(cart_id=cart.id, product_id=data["product_id"]):
+                cartLink = CartLink.find_by_attribute(
+                    cart_id=cart.id, product_id=data["product_id"])
+                var = cartLink.amount = amount
 
-        #         return {"message": f"{product.productName} was removed from {category.categoryName} category!"}, 200
+                cartLink.save_to_db()
+                return {"message": f"{product.productName} has been changed to {amount}."}, 200
+            else:
+                cartLink = CartLink(data['product_id'], cart.id)
+                cartLink.amount = amount
+                cartLink.save_to_db()
 
-        #     return {"message": "This assignment does not exist!"}
+                return {"message": f"{product.productName} has been added to cart."}, 200
+
+        return {"message": f"User does not have a cart, please contact the support!"}, 200
+
+    def delete(self, user_id):
+        data = AssignProductToCart.parser.parse_args()
+
+        product = ProductModel.find_by_attribute(id=data["product_id"])
+        if not product:
+            return {"message": "This product does not exists"}, 404
+        user = UserModel.find_by_attribute(id=data["user_id"])
+        if not user:
+            return {"message": "This user does not exist"}, 404
+
+        if CartModel.find_by_attribute(user_id=data["user_id"]):
+            cart = CartModel.find_by_attribute(user_id=data["user_id"])
+
+            if CartLink.find_by_attribute(cart_id=cart.id, product_id=data["product_id"]):
+                cartLink = CartLink.find_by_attribute(
+                    cart_id=cart.id, product_id=data["product_id"])
+
+                cartLink.delete_from_db()
+                return {"message": f"{product.productName} has been removed from the cart."}, 200
+            else:
+                return {"message": f"{product.productName} is not in the cart."}, 200
+
+        return {"message": f"User does not have a cart, please contact the support!"}, 200
