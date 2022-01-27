@@ -15,12 +15,9 @@ class AssignProductToCategory(Resource):
                         type=str,
                         required=True,
                         help="This field cannot be blank.")
-    parser.add_argument('new_category_id',
-                        type=str,
-                        required=True,
-                        help="This field cannot be blank.")
 
     def post(self):
+        self.parser.remove_argument("new_category_id")
         data = AssignProductToCategory.parser.parse_args()
 
         product = ProductModel.find_by_attribute(id=data["product_id"])
@@ -38,6 +35,11 @@ class AssignProductToCategory(Resource):
         return {"message": f"{product.productName} is assigned to {category.categoryName} successfully!"}, 201
 
     def put(self):
+        self.parser.add_argument('new_category_id',
+                                 type=str,
+                                 required=False,
+                                 help="This field cannot be blank.")
+
         data = AssignProductToCategory.parser.parse_args()
 
         product = ProductModel.find_by_attribute(id=data["product_id"])
@@ -63,6 +65,7 @@ class AssignProductToCategory(Resource):
             return {"message": f"{product.productName} has been assigned to {new_category.categoryName} from {category.categoryName} successfully!"}, 201
 
     def delete(self):
+        self.parser.remove_argument("new_category_id")
         data = AssignProductToCategory.parser.parse_args()
 
         product = ProductModel.find_by_attribute(id=data["product_id"])

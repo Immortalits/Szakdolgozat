@@ -56,10 +56,12 @@ class CategoryManagement(Resource):
 
             category = CategoryModel.find_by_attribute(
                 id=category_id)
+            prevName = category.categoryName
             if category:
+                old_category = category.categoryName
                 category.categoryName = data["categoryName"]
                 category.save_to_db()
-                return {"message": f"{category.categoryName} category has been updated to {data['categoryName']} successfully."}
+                return {"message": f"{prevName} category has been updated to {data['categoryName']} successfully."}
             return {"message": f"Category with name: {category.categoryName} does not exists!"}
         else:
             return {"message": f"Please give a valid category name of at least {minLength} characters!"}
