@@ -33,9 +33,7 @@ def create_tables():
     db.create_all()
 
 
-@app.route("/")
-def index():
-    return "Hello"
+jwt = JWT(app, authenticate, identity)  # Creating JWT instance
 
 
 api.add_resource(UserRegister, "/register")

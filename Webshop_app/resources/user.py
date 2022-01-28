@@ -1,4 +1,3 @@
-import imp
 from flask_restful import Resource, reqparse
 from Webshop_app.models.user import UserModel
 from Webshop_app.security import hash_password
@@ -16,12 +15,18 @@ class UserRegister(Resource):
                         type=str,
                         required=True,
                         help="This field cannot be blank.")
+    parser.add_argument('password_again',
+                        type=str,
+                        required=True,
+                        help="This field cannot be blank.")
 
     def post(self):
         data = UserRegister.parser.parse_args()
 
         if UserModel.find_by_attribute(username=data['username']):
             return {"message": "A user with that username already exists"}, 400
+        if data["password"] != data["password_again"]:
+            return {"message": "Passwords must match!"}, 400
 
         user = UserModel(data['username'], hash_password(data['password']))
         user.save_to_db()
