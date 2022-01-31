@@ -30,8 +30,7 @@ class AssignProductToCart(Resource):
         user = UserModel.find_by_attribute(id=data["user_id"])
         if not user:
             return {"message": "This user does not exist"}, 404
-
-        if data['amount'] and data['amount'] >= 1:
+        if data['amount']:
             amount = data['amount']
         else:
             # if no amount is defined
@@ -44,9 +43,11 @@ class AssignProductToCart(Resource):
                 cartLink = CartLink.find_by_attribute(
                     cart_id=cart.id, product_id=data["product_id"])
                 var = cartLink.amount + amount
-                if var >= 0:
+                if var > cartLink.amount:
                     cartLink.amount += amount
-                elif var < 0:
+                elif var < cartLink.amount and var > 0:
+                    cartLink.amount += amount
+                    cartLink.save_to_db()
                     return {"message": f"{product.productName} has been reduced by {abs(amount)}."}, 200
                 else:
                     cartLink.delete_from_db()
