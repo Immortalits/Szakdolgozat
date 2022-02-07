@@ -20,6 +20,10 @@ To run the app, use:
 flask run
 ```
 
+Postman collection link:
+https://www.getpostman.com/collections/c13fb904a842cd3faa50
+
+
 For flask_JWT authentication:
 
 Create an environment in Postman with your URL and a jwt_token as variable and
